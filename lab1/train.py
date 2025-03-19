@@ -43,7 +43,6 @@ def train(model, device, tloader, vloader, epoch=10, validation=1):
 	
 	loss_func = nn.BCEWithLogitsLoss()
 	opt = torch.optim.Adam(model.parameters(), lr=0.001, betas=(0.9, 0.999), eps=1e-6) 
-#	opt = torch.optim.SGD(params=model.parameters(), lr=0.01)
 
 	current_epoch = 0
 	min_loss = 1e+6
@@ -103,7 +102,7 @@ def train(model, device, tloader, vloader, epoch=10, validation=1):
 		avg_loss = running_loss / len(vloader) 
 		if avg_loss < min_loss:
 			min_loss = avg_loss
-			torch.save(model.state_dict(), f"weights\\best_{epoch}.pth")
+			torch.save(model.state_dict(), f"weights\\valid_{current_epoch}.pth")
 
 		valid_results['loss'].append(running_loss / len(vloader))
 		valid_results['accuracy'].append(valid_metrics['accuracy'].compute().item())
