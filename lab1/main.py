@@ -5,18 +5,14 @@ from torch.utils.data import Dataset, DataLoader
 
 from mydataloader import HotDogDataset, transform
 from train import train, test
-from model import MobNet
+from model import MobNetNew
 
 def main():
 	device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 	num_classes = 1
 
-	model = MobNet(num_classes=1)
+	model = MobNetNew(num_classes=1)
 	model = model.to(device=device)
-
-	model2 = timm.create_model("mobilenetv2_100", pretrained=False)
-	model2.classifier = nn.Linear(model2.classifier.in_features, num_classes)
-	model2.to(device=device)
 
 	train_dataset = HotDogDataset("../dataset/train", transform=transform)
 	valid_dataset = HotDogDataset("../dataset/valid", transform=transform)	
@@ -26,7 +22,7 @@ def main():
 	valid_loader = DataLoader(valid_dataset, batch_size=1, shuffle=False)
 	test_loader = DataLoader(test_dataset, batch_size=1, shuffle=False)
 
-	train(model=model, device=device, tloader=train_loader, vloader=valid_loader, epoch=10, validation=5)
+	train(model=model, device=device, tloader=train_loader, vloader=valid_loader, epoch=10, validation=1)
 	#test(model=model, path=".\\weights\\_100.pth", device=device, tloader=test_loader)
 
 if __name__ == "__main__":

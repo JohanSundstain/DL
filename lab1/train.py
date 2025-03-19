@@ -3,7 +3,7 @@ import torch.nn as nn
 from tqdm import tqdm
 import torch
 import torchmetrics.classification
-from model import MobNet
+from model import MobNetNew
 import matplotlib.pyplot as plt
 
 def set_in_plot(ax, x, y, title):
@@ -41,9 +41,8 @@ def train(model, device, tloader, vloader, epoch=10, validation=1):
  					  'precision':  torchmetrics.classification.BinaryPrecision(threshold=0.5).to(device=device),
 					  'recall': torchmetrics.classification.BinaryRecall(threshold=0.5).to(device=device)}
 	
-	loss_func = nn.BCELoss()
-#	opt = torch.optim.Adam(model.parameters(), lr=0.001, betas=(0.9, 0.999), eps=1e-8) 
-	opt = torch.optim.SGD(params=model.parameters(), lr=0.01)
+	loss_func = nn.BCEWithLogitsLoss()
+	opt = torch.optim.Adam(model.parameters(), lr=0.0001, betas=(0.9, 0.999), eps=1e-8) 
 
 	current_epoch = 0
 	min_loss = 1e+6
@@ -63,9 +62,10 @@ def train(model, device, tloader, vloader, epoch=10, validation=1):
 				loss.backward()
 				opt.step()
 
-				train_metrics['accuracy'].update(output, label[:,None])
-				train_metrics['recall'].update(output, label[:,None])
-				train_metrics['precision'].update(output, label[:,None])
+				pred = torch.sigmoid(output)
+				train_metrics['accuracy'].update(pred, label[:,None])
+				train_metrics['recall'].update(pred, label[:,None])
+				train_metrics['precision'].update(pred, label[:,None])
 				running_loss += loss.item()
 
 			train_results['loss'].append(running_loss / len(tloader))
@@ -91,10 +91,11 @@ def train(model, device, tloader, vloader, epoch=10, validation=1):
 
 				output = model(data)
 				loss = loss_func(output, label[:,None])
-
-				valid_metrics['accuracy'].update(output, label[:,None])
-				valid_metrics['recall'].update(output, label[:,None])
-				valid_metrics['precision'].update(output, label[:,None])
+				
+				pred = torch.sigmoid(output)
+				valid_metrics['accuracy'].update(pred, label[:,None])
+				valid_metrics['recall'].update(pred, label[:,None])
+				valid_metrics['precision'].update(pred, label[:,None])
 				
 				running_loss += loss.item()
 
