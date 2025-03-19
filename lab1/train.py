@@ -42,7 +42,7 @@ def train(model, device, tloader, vloader, epoch=10, validation=1):
 					  'recall': torchmetrics.classification.BinaryRecall(threshold=0.5).to(device=device)}
 	
 	loss_func = nn.BCEWithLogitsLoss()
-	opt = torch.optim.Adam(model.parameters(), lr=0.0001, betas=(0.9, 0.999), eps=1e-8) 
+	opt = torch.optim.Adam(model.parameters(), lr=0.01, betas=(0.9, 0.999), eps=1e-8) 
 
 	current_epoch = 0
 	min_loss = 1e+6
