@@ -23,7 +23,7 @@ def main():
 	test_loader = DataLoader(test_dataset, batch_size=1, shuffle=False)
 
 	#train(model=model, device=device, tloader=train_loader, vloader=valid_loader, epoch=100, validation=10)
-	test(model=model, path="weights\\epoch_100.pth", device=device, tloader=test_loader)
+	test(model=model, path="weights\\last.pth", device=device, tloader=test_loader)
 
 if __name__ == "__main__":
 	main()

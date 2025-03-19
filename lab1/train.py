@@ -42,7 +42,7 @@ def train(model, device, tloader, vloader, epoch=10, validation=1):
 					  'recall': torchmetrics.classification.BinaryRecall(threshold=0.5).to(device=device)}
 	
 	loss_func = nn.BCEWithLogitsLoss()
-	opt = torch.optim.Adam(model.parameters(), lr=0.01, betas=(0.9, 0.999), eps=1e-8) 
+	opt = torch.optim.Adam(model.parameters(), lr=0.001, betas=(0.9, 0.999), eps=1e-8) 
 
 	current_epoch = 0
 	min_loss = 1e+6
@@ -102,7 +102,8 @@ def train(model, device, tloader, vloader, epoch=10, validation=1):
 		avg_loss = running_loss / len(vloader) 
 		if avg_loss < min_loss:
 			min_loss = avg_loss
-			torch.save(model.state_dict(), f"weights\\best_{epoch}.pth")
+			print("saving...")
+			torch.save(model.state_dict(), f"weights\\best.pth")
 
 		valid_results['loss'].append(running_loss / len(vloader))
 		valid_results['accuracy'].append(valid_metrics['accuracy'].compute().item())
@@ -119,7 +120,7 @@ def train(model, device, tloader, vloader, epoch=10, validation=1):
 			f" recall: {valid_results['recall'][-1]:.2f}")
 	
   
-	torch.save(model.state_dict(), f"weights\\epoch_{epoch}.pth")
+	torch.save(model.state_dict(), f"weights\\last.pth")
 	draw_metrics(train_results, "Train")
 	draw_metrics(valid_results, "Validation")
 
@@ -152,5 +153,4 @@ def test(model, path,  device, tloader):
 	print(f"loss: {avg_loss:.2f}" +
 		 	f" accuracy: {test_metrics['accuracy'].compute().item():.2f}" +
 			f" precision: {test_metrics['recall'].compute().item():.2f}" +
-			f" recall: {test_metrics['precision'].compute().item():.2f}")
-	
+			f" recall: {test_metrics['precision'].compute().item():.2f}")	
