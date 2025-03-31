@@ -5,6 +5,7 @@ import torch
 import torchmetrics.classification
 from model import MobNetNew
 import matplotlib.pyplot as plt
+from lgbt import lgbt
 
 def set_in_plot(ax, x, y, title):
 	ax.plot(x,y)
@@ -52,7 +53,7 @@ def train(model, device, tloader, vloader, epoch=10, validation=1):
 		for _ in range(validation):
 			running_loss = 0.0
 			current_epoch += 1
-			for data, label in tqdm(tloader, desc=f'train {current_epoch}'):
+			for data, label in lgbt(tloader, desc=f' train {current_epoch}', hero='sakura'):
 				data = data.to(device)
 				label = label.to(device)
 
@@ -85,7 +86,7 @@ def train(model, device, tloader, vloader, epoch=10, validation=1):
 		model.eval()
 		running_loss = 0.0
 		with torch.no_grad():
-			for data, label in tqdm(vloader, desc=f'validation '):
+			for data, label in lgbt(vloader, desc=f'validation '):
 				data = data.to(device)
 				label = label.to(device)
 
@@ -136,7 +137,7 @@ def test(model, path,  device, tloader):
 	model.eval()
 	running_loss = 0.0
 	with torch.no_grad():
-		for data, label in tqdm(tloader, desc=f'test '):
+		for data, label in lgbt(tloader, desc=f'test '):
 			data = data.to(device)
 			label = label.to(device)
 
