@@ -29,7 +29,6 @@ def draw_metrics(dict, desc):
 	plt.show()
 
 
-
 def train(model, device, tloader, vloader, epoch=10, validation=1):
 
 	train_results = {'loss': [], 'accuracy': [], 'precision':[], 'recall':[] }
@@ -85,7 +84,7 @@ def train(model, device, tloader, vloader, epoch=10, validation=1):
 		
 		model.eval()
 		running_loss = 0.0
-		with torch.no_grad():
+		with torch.inference_mode():
 			for data, label in lgbt(vloader, desc=f'validation '):
 				data = data.to(device)
 				label = label.to(device)
@@ -137,7 +136,7 @@ def test(model, path,  device, tloader):
 	model.eval()
 	running_loss = 0.0
 	with torch.no_grad():
-		for data, label in lgbt(tloader, desc=f'test '):
+		for data, label in lgbt(tloader, desc=f'test ', mode='ita', hero='tralalero'):
 			data = data.to(device)
 			label = label.to(device)
 
@@ -155,3 +154,6 @@ def test(model, path,  device, tloader):
 		 	f" accuracy: {test_metrics['accuracy'].compute().item():.2f}" +
 			f" precision: {test_metrics['recall'].compute().item():.2f}" +
 			f" recall: {test_metrics['precision'].compute().item():.2f}")	
+	
+
+

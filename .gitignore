@@ -1,3 +1,6 @@
 __pycache__
 dataset
 weights
+test_images
+train.log
+test.py
