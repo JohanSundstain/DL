@@ -8,10 +8,20 @@ This repository contains a collection of deep learning lab assignments completed
 Implements binary image segmentation using the lightweight MobileNetV1 architecture.
 Includes training code, data preprocessing, and evaluation scripts.
 
+### Metrics
+
+![Train](MobileNET/Train.png)
+
+![Valid](MobileNET/Validation.png)
+
 ## Lab 2: Binary Semantic Segmentation of Water using U-Net
 
 Focuses on semantic segmentation of water regions in images using the U-Net architecture.
 Contains all necessary components for training, validation.
+
+### Metrics
+
+![Train & Valid](UNET/metrics.png)
 
 ## Getting Started
 Each lab folder includes its own:
