@@ -5,3 +5,8 @@ test_images
 train.log
 test.py
 .vscode
+yolo_dataset
+runs
+fasterrcnn_*
+yolo11n.pt
+model.pkl

@@ -11,7 +11,7 @@ def parse_log(log_file):
 	for line in logs:
 		splitted = line.split(" ")
 
-		if splitted[3] == "Train":
+		if splitted[0] == "Train":
 			train_loss.append(float(splitted[-1]))
 		else:
 			valid_loss.append(float(splitted[-1]))
@@ -34,7 +34,7 @@ def show_metrics(log_file):
 	set_in_plot(axes[1], ve, vl, "valid loss")
 
 	fig.suptitle("UNet")
-	plt.savefig("test_images/metrics.png", dpi=300)
+	plt.savefig("metrics.png", dpi=300)
 	plt.show()
 
 

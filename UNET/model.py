@@ -87,6 +87,7 @@ class Unet(nn.Module):
 		self.botleneck = BottleNeck(512, 1024, 1024, 1024)
 		self.decoder_layers = self._make_layers(config_decoder, DecoderBlock)
 		self.last_layer = nn.Conv2d(in_channels=64, out_channels=num_classes, kernel_size=1, padding=0, bias=False)
+		
 			
 	def _make_layers(self, config, type):
 		layers = []
